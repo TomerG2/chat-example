@@ -9,12 +9,12 @@ app.get('/', function(req, res){
 });
 
 io.on('connection', function(socket){
-  io.emit('chat message', system, 'someone connected');
+  socket.broadcast.emit('chat message', system, 'someone connected');
   socket.on('disconnect', function(){
     io.emit('chat message', system, 'someone disconnect');
   });
   socket.on('chat message', function(nickname, msg){
-    io.emit('chat message', nickname, msg);
+    socket.broadcast.emit('chat message', nickname, msg);
   });
 });
 

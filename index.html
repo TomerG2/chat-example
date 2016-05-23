@@ -25,13 +25,19 @@
     "use strict";
     var socket = io();
     $('form').submit(function(){
-      socket.emit('chat message', $('#nickname').val(), $('#m').val());
+      var nickname = ($('#nickname').val() || "user");
+      var msg = $('#m').val();
+      appendMessage(nickname, msg);
+      socket.emit('chat message', nickname, msg);
       $('#m').val('');
       return false;
     });
     socket.on('chat message', function(nickname, msg){
-      $('#messages').append($('<li>').text((nickname || "user")+ ": " + msg));
+      appendMessage(nickname, msg);
     });
+    function appendMessage(nickname, msg){
+      $('#messages').append($('<li>').text(nickname+ ": " + msg));
+    };
   </script>
   </body>
 </html>
