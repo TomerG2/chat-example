@@ -1,0 +1,8 @@
+{
+  "name": "socket-chat-example",
+  "description": "my first socket.io app",
+  "repository": "https://github.com/TomerG2/chat-example",
+  "logo": "http://node-js-sample.herokuapp.com/node.svg",
+  "keywords": ["node", "express", "socketio"],
+  "image": "heroku/nodejs"
+}
