@@ -2,17 +2,38 @@
 <html>
   <head>
     <title>NodeJS Chat</title>
+    <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" />
     <link rel="stylesheet" href="/css/site.css" >
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   </head>
   <body>
-    <ul id="messages"></ul>
-    <ul id="typings"></ul>
-    <form action="">
-      <input type="text" id="user" placeholder="Username"/>
-      <input id="m" autocomplete="off" placeholder="new message"/><button>Send</button>
-    </form>
-  <script src="/socket.io/socket.io.js"></script>
+    <div class="container">
+      <h1>Nodejs Chat</h1>
+      <form action="">
+        <div class="form-group">
+            <input type="text" id="user" class="form-control" placeholder="Username" autocomplete="off"/>
+        </div>
+      </form>
+      <div class="row">
+        <div class="col-sm-11">
+          <ul id="messages"></ul>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-11">
+          <ul id="typings"></ul>
+        </div>
+      </div>
+      <form action="">
+        <div class="form-group">
+            <input type="text" id="m" class="form-control" placeholder="new message" autocomplete="off"/>
+        </div>
+        <button class="btn btn-primary btn-block">Send</button>
+      </form>
+    </div>
   <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
   <script src="/scripts/chat.js"></script>
   </body>
 </html>
