@@ -44,5 +44,5 @@
   };
 
   function removeTyping(sid, user){
-    $('#'+user).remove();
+    $('li#'+user).remove();
   };
