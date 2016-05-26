@@ -2,17 +2,17 @@
 
 var module = angular.module("chatApp",[]);
 
-var socket = io();
-
 module.controller("mainCtrl",
   ['$scope',function mainCtrl($scope){
     $scope.model = {
-      online: [], //{user: "tomer", typing: true}
+      online: [], //{sid: "/#HlIcBKJfugei7La6AAAw", user: "tomer", typing: true}
       messages: [], //{user: "tomer", message: "hello"}
       sid: null,
       user: null,
       message: null
     }
+
+    var socket = io();
 
     $scope.send = function (){
       $scope.model.messages.push({user: $scope.model.user, message: $scope.model.message});
@@ -21,55 +21,39 @@ module.controller("mainCtrl",
       $scope.model.message = "";
     };
 
+    $scope.typing = function(){
+      socket.emit('user typing', $scope.model.user);
+    };
+
     socket.on('chat message', function(user_, msg_){
-      $scope.model.messages.push({user: user_, message: msg_});
+      $scope.$apply(function(){
+        $scope.model.messages.push({user: user_, message: msg_});
+      });
+    });
+
+    socket.on('save id', function(sid_){
+      $scope.$apply(function(){
+        $scope.model.sid = sid_;
+      });
+    });
+
+    socket.on('user typing', function(sid_, user_){
+      $scope.$apply(function(){
+        let user = $scope.model.online.find(u => u.sid === sid_);
+        if(user === undefined){
+          $scope.model.online.push({sid: sid_, user: user_, typing: true});
+        } else if(user.typing === false){
+          user.typing = true;
+        };
+      });
+    });
+
+    socket.on('end typing', function(sid_, user){
+      $scope.$apply(function(){
+        let user = $scope.model.online.find(u => u.sid === sid_);
+        if(user !== undefined){
+          user.typing = false;
+        };
+      });
     });
 }]);
-
-  //
-  // var sid = null;
-  // $('form').submit(function(){
-  //   var user = ($('#user').val() || "user");
-  //   var msg = $('#m').val();
-  //   appendMessage(user, msg);
-  //   socket.emit('chat message', user, msg);
-  //   socket.emit('end typing', user);
-  //   $('#m').val('');
-  //   return false;
-  // });
-  //
-  // $('#m').keydown(function(){
-  //   var user = ($('#user').val() || "user");
-  //   socket.emit('user typing', user);
-  // });
-  //
-  // socket.on('save id', function(sid_){
-  //   sid = sid_;
-  // });
-  //
-  // socket.on('chat message', function(user, msg){
-  //   appendMessage(user, msg);
-  // });
-  //
-  // socket.on('user typing', function(sid, user){
-  //   appendTyping(sid, user);
-  // });
-  //
-  // socket.on('end typing', function(sid, user){
-  //   removeTyping(sid, user);
-  // });
-  //
-  // function appendMessage(user, msg){
-  //   $('#messages').append($('<li>').text(user+ ": " + msg));
-  // };
-  //
-  // function appendTyping(sid, user){
-  //   removeTyping(sid, user);
-  //   var e = $('<li>').text(user + " is typing...");
-  //   $('#typings').append(e);
-  //   e.attr('id', user);
-  // };
-  //
-  // function removeTyping(sid, user){
-  //   $('li#'+user).remove();
-  // };

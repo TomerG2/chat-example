@@ -10,6 +10,7 @@
     <div class="container">
       <div ng-controller="mainCtrl">
         <h1>Nodejs Chat</h1>
+        <h3>User ID: {{model.sid}}</h3>
         <form action="">
           <div class="form-group">
               <input type="text" id="user" class="form-control" placeholder="Username" autocomplete="off" ng-model="model.user"/>
@@ -31,7 +32,7 @@
         </div>
         <form action="">
           <div class="form-group">
-              <input type="text" id="m" class="form-control" placeholder="new message" autocomplete="off" ng-model="model.message"/>
+              <input type="text" id="m" class="form-control" placeholder="new message" autocomplete="off" ng-model="model.message" ng-keydown="typing()"/>
           </div>
           <button class="btn btn-primary btn-block" ng-click="send()">Send</button>
         </form>
