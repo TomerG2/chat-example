@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html ng-app="chatApp">
   <head>
     <title>NodeJS Chat</title>
     <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" />
@@ -8,31 +8,38 @@
   </head>
   <body>
     <div class="container">
-      <h1>Nodejs Chat</h1>
-      <form action="">
-        <div class="form-group">
-            <input type="text" id="user" class="form-control" placeholder="Username" autocomplete="off"/>
+      <div ng-controller="mainCtrl">
+        <h1>Nodejs Chat</h1>
+        <form action="">
+          <div class="form-group">
+              <input type="text" id="user" class="form-control" placeholder="Username" autocomplete="off" ng-model="model.user"/>
+          </div>
+        </form>
+        <div class="row">
+          <div class="col-sm-11">
+            <ul id="messages">
+              <li ng-repeat="m in model.messages track by $index">{{m.user}}: {{m.message}}</li>
+            </ul>
+          </div>
         </div>
-      </form>
-      <div class="row">
-        <div class="col-sm-11">
-          <ul id="messages"></ul>
+        <div class="row">
+          <div class="col-sm-11">
+            <ul id="typings">
+              <li ng-repeat="u in model.online track by $index" ng-show="u.typing">{{u.user}} is typing...</li>
+            </ul>
+          </div>
         </div>
+        <form action="">
+          <div class="form-group">
+              <input type="text" id="m" class="form-control" placeholder="new message" autocomplete="off" ng-model="model.message"/>
+          </div>
+          <button class="btn btn-primary btn-block" ng-click="send()">Send</button>
+        </form>
       </div>
-      <div class="row">
-        <div class="col-sm-11">
-          <ul id="typings"></ul>
-        </div>
-      </div>
-      <form action="">
-        <div class="form-group">
-            <input type="text" id="m" class="form-control" placeholder="new message" autocomplete="off"/>
-        </div>
-        <button class="btn btn-primary btn-block">Send</button>
-      </form>
     </div>
   <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
   <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.29/angular.min.js"></script>
   <script src="/socket.io/socket.io.js"></script>
   <script src="/scripts/chat.js"></script>
   </body>
